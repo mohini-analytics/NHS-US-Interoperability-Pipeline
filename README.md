@@ -1,11 +1,8 @@
 # NHS to US Healthcare Interoperability Pipeline
-## FHIR R4 | REST APIs | HL7 | RCM | HIPAA | SQL
+## FHIR R4 | REST APIs | Healthcare Interoperability | NHS UK | US Healthcare | SQL
 
 ## Project Overview
-This project analyses and documents the technical and clinical 
-challenges of exchanging patient data between NHS UK systems 
-(SystmOne/UK Core FHIR R4) and US healthcare systems 
-(Epic/US Core FHIR R4).
+This project analyses and demonstrates how patient data can be exchanged between NHS UK systems and US healthcare systems using FHIR R4 standards. 
 
 ## Business Problem
 Over 1.3 million British citizens live in the US. When they 
