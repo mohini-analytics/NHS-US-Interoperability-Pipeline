@@ -18,8 +18,8 @@ proposes a FHIR-based interoperability solution.
 - SQL data quality analysis, including window functions
 - HL7 v2 to FHIR R4 migration considerations
 - HIPAA and GDPR compliance framework comparison
-- RCM workflow mapping — eligibility, claims, denial patterns
-- Healthcare BA deliverables — BRD, user stories, 
+- RCM workflow mapping- eligibility, claims, denial patterns
+- Healthcare BA deliverables- BRD, user stories, 
   acceptance criteria
 
 ## NHS Context
