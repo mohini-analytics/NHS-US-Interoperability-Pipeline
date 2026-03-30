@@ -41,3 +41,13 @@ Note the addition of mandatory US extensions that were not present in the UK rec
   "gender": "female",
   "birthDate": "1990-05-15"
 }
+```
+
+
+
+## Key Constraints This Profile Enforces
+- MRN is the primary identifier (no universal US patient ID exists)
+- Race and Ethnicity extensions are Must Support- receiving system must handle them
+- OMB category codes are mandatory for race/ethnicity classification
+- No NHS Number equivalent- patient matching across systems is a known risk
+- Insurance Member ID often added as second identifier for RCM purposes
