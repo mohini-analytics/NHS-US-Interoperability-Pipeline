@@ -7,20 +7,20 @@ This document serves as technical evidence of the FHIR API discovery process for
 ## 1. Initial Connectivity & Security Test (NHS Sandbox)
 **Scenario:** Attempting to reach the UK NHS Personal Demographics Service (PDS).
 
-![NHS Error Response](../images/postman/image_8a2d56.png)
+![NHS Error Response](screenshots/BAD REQUEST.png) 
 
-* **Endpoint:** `https://sandbox.api.service.nhs.uk/personal-demographics/FHIR/R4/Patient/900...`
+* **Endpoint:** `https://sandbox.api.service.nhs.uk/personal-demographics/FHIR/R4/Patient/9000000033`
 * **Status:** `400 Bad Request`
 * **BA Analysis:** This response confirms a successful "handshake" with the NHS API Gateway. The `400` status is returned because the Sandbox requires specific `apikey` credentials. Crucially, the response is a valid **FHIR OperationOutcome**, proving the server is ready to communicate in the correct healthcare standard.
 
 ---
 
 ## 2. Patient Search & Bundle Analysis
-**Scenario:** Fetching a set of patients to analyze identifier systems.
+**Scenario:** Fetching a set of patients to analyse the identifier systems.
 
-![Patient Search](../images/postman/image_94afe9.png)
+![Patient Search](screenshots/API Call 1.png) 
 
-* **Endpoint:** `GET {{base_url}}/Patient?_count=5`
+* **Endpoint:** `https://hapi.fhir.org/baseR4/Patient?_count=5`
 * **Status:** `200 OK`
 * **Technical Insight:** The result is a `searchset` Bundle. As a BA, I am looking for the `identifier` array to see how "National IDs" (like the NHS Number) are stored vs. "Local IDs" (MRNs).
 
@@ -29,7 +29,7 @@ This document serves as technical evidence of the FHIR API discovery process for
 ## 3. Deep-Dive: Individual Patient Record
 **Scenario:** Fetching a single record to check for US Core compliance.
 
-![Patient Record](../images/postman/image_96763f.jpg)
+![Patient Record](screenshots/API Call 2.png)
 
 * **Endpoint:** `GET {{base_url}}/Patient/90248066`
 * **BA Analysis:** This record lacks the **OMB Race and Ethnicity** extensions. For the US migration, I have flagged this as a "Must-Intervene" data gap for the registration team.
@@ -41,7 +41,7 @@ This document serves as technical evidence of the FHIR API discovery process for
 
 | Observation Query | Condition Query | Medication Query |
 | :--- | :--- | :--- |
-| ![Obs](../images/postman/image_9679e6.jpg) | ![Cond](../images/postman/image_967dc8.jpg) | ![Med](../images/postman/image_96816a.jpg) |
+| ![Obs](screenshots/API Call 3.png) | ![Cond](screenshots/API Call 4.png) | ![Med](screenshots/API Call 5.png) |
 
 * **Status:** `200 OK` (Empty Bundles)
 * **BA Findings:** While the calls were technically successful, the `total: 0` result indicates that clinical data for this specific Patient ID is not present in the public HAPI database. 
