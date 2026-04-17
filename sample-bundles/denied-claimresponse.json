@@ -1,0 +1,51 @@
+{
+  "resourceType": "ClaimResponse",
+  "use": "preauthorization",
+  "status": "active",
+  "created": "2024-11-15T11:00:00Z",
+  "outcome": "error",
+  "insurer": {
+    "display": "Aetna"
+  },
+  "type": {
+    "coding": [
+      {
+        "system": "http://terminology.hl7.org/CodeSystem/claim-type",
+        "code": "professional"
+      }
+    ]
+  },
+  "item": [
+    {
+      "itemSequence": 1,
+      "adjudication": [
+        {
+          "category": {
+            "coding": [
+              {
+                "system": "https://codesystem.x12.org/005010/306",
+                "code": "A4",
+                "display": "Denied"
+              }
+            ]
+          },
+          "reason": {
+            "coding": [
+              {
+                "system": "https://x12.org/codes/claim-adjustment-reason-codes",
+                "code": "11",
+                "display": "Diagnosis inconsistent with procedure"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "processNote": [
+    {
+      "type": "display",
+      "text": "Prior authorization denied. Diagnosis code F31.9 (Bipolar disorder, unspecified) does not meet medical necessity criteria for lithium carbonate. NHS SNOMED CT codes were not translated to ICD-10-CM before submission — direct consequence of Gap 2 identified in 02-fhir-analysis."
+    }
+  ]
+}
