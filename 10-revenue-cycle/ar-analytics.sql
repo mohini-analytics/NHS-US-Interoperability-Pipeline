@@ -1,16 +1,13 @@
 -- ====================================================================================================================================================================================
--- AR ANALYTICS — NHS TO US INTEROPERABILITY PIPELINE
--- Revenue Cycle Management: Denial Pattern and Compliance SQL
+-- AR ANALYTICS - NHS TO US INTEROPERABILITY PIPELINE
+-- Revenue Cycle Management: Prior Auth Decision Analytics
 -- ====================================================================================================================================================================================
--- These queries extend the data quality analysis in
--- 05-sql-analysis/ by focusing on prior auth decision outcomes,
--- CMS-0057-F compliance tracking, and auto-approval rate monitoring.
---
--- Table assumed: prior_auth_decisions
--- Columns: request_id, patient_id, urgency_flag, submitted_timestamp,
---          decision_timestamp, review_action_code, denial_reason_code,
---          denial_reason_description, auto_approved, claim_amount,
---          patient_origin (values: 'UK_TRANSFER', 'DOMESTIC')
+-- PIPELINE POSITION:
+-- This file covers the prior authorisation stage of RCM.
+-- For downstream billing denial analysis using window functions,
+-- see 05-sql-analysis/window-function-analysis.sql.
+-- Together, these files cover the full RCM denial pipeline:
+-- Prior Auth Decision -> Claim Submission -> Denial Pattern Analysis
 -- ====================================================================================================================================================================================
 
 
@@ -19,11 +16,11 @@
 -- ====================================================================================================================================================================================
 -- Business question: Which denial reasons are driving the most volume?
 -- CMS-0057-F link: Structured denial reason codes are mandatory from
---                  January 2026 — this query only works if that field
+--                  January 2026 - this query only works if that field
 --                  is populated, making it a compliance check in itself.
--- BA use: Identifies top denial categories for process improvement.
+-- Business use: Identifies top denial categories for process improvement.
 --         High volume of CARC 11 (diagnosis/procedure mismatch) points
---         to SNOMED CT → ICD-10-CM translation failures upstream.
+--         to SNOMED CT -> ICD-10-CM translation failures upstream.
 -- ====================================================================================================================================================================================
 
 SELECT
@@ -44,13 +41,13 @@ ORDER BY denial_count DESC;
 
 
 -- ====================================================================================================================================================================================
--- QUERY 2: Prior Auth Turnaround Time — CMS Compliance Tracking
+-- QUERY 2: Prior Auth Turnaround Time - CMS Compliance Tracking
 -- ====================================================================================================================================================================================
 -- Business question: Are we meeting CMS-0057-F response time mandates?
 -- CMS-0057-F link: 72 hours for urgent requests, 7 days for standard.
 --                  Breach of these timelines is a reportable violation
 --                  from March 2026.
--- BA use: Feeds into public reporting requirements. Identifies payers
+-- Business use: Feeds into public reporting requirements. Identifies payers
 --         or request types that consistently breach timelines.
 -- ====================================================================================================================================================================================
 
@@ -82,7 +79,7 @@ ORDER BY submitted_timestamp DESC;
 -- CMS-0057-F link: CMS expects auto-approval rates to increase as
 --                  FHIR-based prior auth matures. Low auto-approval
 --                  rates indicate documentation gaps at submission.
--- BA use: Month-on-month trend shows whether DTR implementation is
+-- Business use: Month-on-month trend shows whether DTR implementation is
 --         reducing manual review burden as intended.
 -- ====================================================================================================================================================================================
 
