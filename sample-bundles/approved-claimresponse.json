@@ -1,0 +1,42 @@
+{
+  "resourceType": "ClaimResponse",
+  "use": "preauthorization",
+  "status": "active",
+  "created": "2024-11-15T10:30:00Z",
+  "outcome": "complete",
+  "insurer": {
+    "display": "Aetna"
+  },
+  "type": {
+    "coding": [
+      {
+        "system": "http://terminology.hl7.org/CodeSystem/claim-type",
+        "code": "professional"
+      }
+    ]
+  },
+  "item": [
+    {
+      "itemSequence": 1,
+      "adjudication": [
+        {
+          "category": {
+            "coding": [
+              {
+                "system": "https://codesystem.x12.org/005010/306",
+                "code": "A1",
+                "display": "Approved"
+              }
+            ]
+          }
+        }
+      ],
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/us/davinci-pas/StructureDefinition/extension-itemPreAuthRef",
+          "valueString": "PA-2024-00123"
+        }
+      ]
+    }
+  ]
+}
