@@ -16,7 +16,7 @@ This document specifies the complete workflow from order entry to authorization 
 
 ## API Evidence
 
-All ClaimResponse resources in this section were validated against the HAPI FHIR R4 public server via Postman. Screenshots are in the screenshots/ folder.
+All ClaimResponse resources in this section were validated against the HAPI FHIR R4 public server via Postman. Screenshots are below.
 
 | Call | Method | Result | What it proves |
 |---|---|---|---|
@@ -24,89 +24,45 @@ All ClaimResponse resources in this section were validated against the HAPI FHIR
 | Call 7 | POST | 201 Created | Denied ClaimResponse with mandatory CARC 11 reason code |
 | Call 8 | POST | 201 Created | Pended ClaimResponse - WQ outcome for manual review |
 | Call 9 | GET | 200 OK | ClaimResponse query returns bundle of results |
-| Call 10 | POST | 201 Created | **Key finding** - HAPI accepted ClaimResponse without `use` field |
+| Call 10 | POST | 201 Created | Key finding - HAPI accepted ClaimResponse without use field |
+
+### Call 6 - POST ClaimResponse Approved (A1)
+![POST ClaimResponse Approved](09-prior-auth/call-06-post-approved-a1.png)
+
+### Call 7 - POST ClaimResponse Denied (A4)
+![POST ClaimResponse Denied](09-prior-auth/call-07-post-denied-a4.png)
+
+### Call 8 - POST ClaimResponse Pended (WQ)
+![POST ClaimResponse Pended](09-prior-auth/call-08-post-pended-wq.png)
+
+### Call 9 - GET ClaimResponse Query
+![GET ClaimResponse Query](09-prior-auth/call-09-get-claimresponse-query.png)
+
+### Call 10 - POST Invalid Missing Use Field
+![POST Invalid ClaimResponse](09-prior-auth/call-10-post-invalid-missing-use-field.png)
+
+---
 
 ### Key Finding - Call 10
 HAPI FHIR server accepted a ClaimResponse with 201 even when the `use: preauthorization` field was absent. This proves that FHIR server-level validation does not enforce CMS-0057-F business rules.
-A ClaimResponse without this field cannot be distinguished from a billing claim by receiving systems. Application-layer compliance checking is required, which is what the compliance-validator.py script addresses.
+A ClaimResponse without this field cannot be distinguished from a billing claim by receiving systems. Application-layer compliance checking is required.
 
 ### Technical Finding - Reference Validation
 During testing, HAPI rejected ClaimResponse resources that contained references to Patient and Claim resources that did not exist on the server (HAPI-1094 error). This demonstrates that FHIR reference integrity is enforced at submission time. In production, the Patient resource must be created before the ClaimResponse can reference it.
 
 ---
 
-## Stage 1 - CRD: Coverage Requirements Discovery
+## Stage 1 — CRD: Coverage Requirements Discovery
 
 ### Trigger
-The CDS Hook fires at the `order-sign` event. This occurs when a clinician finalises an order - medication, procedure, referral - before it is committed to the EHR.
+The CDS Hook fires at the `order-sign` event. This occurs when a clinician finalises an order — medication, procedure, referral - before it is committed to the EHR.
 
 ### CDS Hook Request
-The EHR sends a hook request to the payer's CDS service containing:
+The EHR sends a hook request to the payer's CDS service containing the order details, patient context, and coverage prefetch data.
+This is a representative example for the bipolar disorder scenario - lithium carbonate ordered for Sarah Jennings.
 
-```json
-{
-  "hookInstance": "a6b2e3c4-d5f6-7890-abcd-ef1234567890",
-  "hook": "order-sign",
-  "context": {
-    "userId": "Practitioner/dr-sarah-chen",
-    "patientId": "Patient/sarah-jennings-us",
-    "draftOrders": {
-      "resourceType": "Bundle",
-      "entry": [
-        {
-          "resource": {
-            "resourceType": "MedicationRequest",
-            "status": "draft",
-            "medicationCodeableConcept": {
-              "coding": [
-                {
-                  "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
-                  "code": "41493",
-                  "display": "lithium carbonate 300mg"
-                }
-              ]
-            }
-          }
-        }
-      ]
-    }
-  },
-  "prefetch": {
-    "patient": "Patient/sarah-jennings-us",
-    "coverage": "Coverage/aetna-member-789"
-  }
-}
-```
-
-### CDS Hook Response - Card
-The payer's rules engine returns a Card indicating coverage status:
-
-```json
-{
-  "cards": [
-    {
-      "summary": "Prior authorization required for lithium carbonate",
-      "indicator": "warning",
-      "detail": "Lithium carbonate 300mg requires prior authorization under this patient's plan. Launch DTR to complete documentation.",
-      "source": {
-        "label": "Aetna Coverage Rules Engine",
-        "url": "https://aetna.com/coverage-rules"
-      },
-      "suggestions": [
-        {
-          "label": "Launch DTR",
-          "actions": [
-            {
-              "type": "create",
-              "description": "Open DTR SMART app to collect required documentation"
-            }
-          ]
-        }
-      ]
-    }
-  ]
-}
-```
+### CDS Hook Response — Card
+The payer's rules engine returns a Card indicating prior authorization is required, with a suggestion to launch the DTR SMART app.
 
 ### Decision Point
 | Card Indicator | Meaning | Next Step |
@@ -117,10 +73,10 @@ The payer's rules engine returns a Card indicating coverage status:
 
 ---
 
-## Stage 2 - DTR: Documentation Templates and Rules
+## Stage 2 — DTR: Documentation Templates and Rules
 
 ### Trigger
-Clinician selects Launch DTR from the CDS Card. The SMART on FHIR application launches within the EHR context.
+The clinician selects Launch DTR from the CDS Card. The SMART on FHIR application launches within the EHR context.
 
 ### Pre-Fill Mechanism
 DTR queries the EHR for existing clinical data using CQL (Clinical Quality Language) logic. For the bipolar disorder prior auth scenario:
@@ -133,57 +89,13 @@ DTR queries the EHR for existing clinical data using CQL (Clinical Quality Langu
 | Treating clinician | Practitioner | EHR directory |
 
 ### QuestionnaireResponse Output
-DTR produces a completed FHIR QuestionnaireResponse containing all
-required clinical documentation:
-
-```json
-{
-  "resourceType": "QuestionnaireResponse",
-  "status": "completed",
-  "subject": {
-    "reference": "Patient/sarah-jennings-us"
-  },
-  "item": [
-    {
-      "linkId": "1",
-      "text": "Primary diagnosis requiring treatment",
-      "answer": [
-        {
-          "valueCoding": {
-            "system": "http://hl7.org/fhir/sid/icd-10-cm",
-            "code": "F31.9",
-            "display": "Bipolar disorder, unspecified"
-          }
-        }
-      ]
-    },
-    {
-      "linkId": "2",
-      "text": "Previous mood stabiliser trials",
-      "answer": [
-        {
-          "valueString": "Valproate 500mg - discontinued due to side effects. Documented in NHS records, transformed from dm+d to RxNorm on intake."
-        }
-      ]
-    },
-    {
-      "linkId": "3",
-      "text": "Estimated treatment duration",
-      "answer": [
-        {
-          "valueString": "12 months - ongoing maintenance therapy"
-        }
-      ]
-    }
-  ]
-}
-```
+DTR produces a completed QuestionnaireResponse containing diagnosis, prior medication trials, and estimated treatment duration. The diagnosis answer uses ICD-10-CM code F31.9 - this only works if the NHS SNOMED CT code was correctly transformed during intake.
 
 ### NHS Interoperability Risk at This Stage
 If NHS records were not transformed correctly before intake:
 - Diagnosis field may contain SNOMED CT code not recognised by DTR CQL logic
 - Medication history may be incomplete if dm+d codes were not mapped
-- DTR questionnaire will not pre-fill — clinician must enter data manually
+- DTR questionnaire will not pre-fill - clinician must enter data manually
 - Manual entry increases documentation error risk and submission time
 - Incomplete submission is the leading cause of clinical prior auth denials
 
@@ -206,9 +118,7 @@ The completed PAS request is a FHIR Bundle containing eight resources:
 | `QuestionnaireResponse` | Completed DTR documentation from Stage 2 |
 
 ### ClaimResponse Outcomes
-
-The payer returns a ClaimResponse with one of three review action codes.
-Full JSON examples are in sample-bundles/ - these were validated against the HAPI FHIR R4 server. See screenshots/ for server responses.
+Full JSON examples for all three outcomes are in the sample-bundles/ folder. These were validated against the HAPI FHIR R4 public server - see screenshots above for server responses.
 
 | Code | Meaning | Key Field |
 |---|---|---|
