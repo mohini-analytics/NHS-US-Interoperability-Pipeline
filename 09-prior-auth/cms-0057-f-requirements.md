@@ -28,11 +28,10 @@ prior auth submission.
 **Relevance to this project:** Establishes the principle of longitudinal data portability. An NHS patient switching US payers benefits from the same continuity mechanism, though NHS data must first be transformed to the US Core FHIR format.
 
 ### 4. Prior Authorization API - New
-**Who uses it:** Providers submitting prior auth requests to payers.  
-**What it contains:** FHIR-based prior auth requests and responses replacing legacy fax and phone workflows.  
-**Compliance deadline:** January 1, 2026.  
-**Relevance to this project:** This is the central API for this section. 
-The Da Vinci CRD, DTR, and PAS specifications implement this API in practice.
+**Who uses it:** Providers submitting prior auth requests to payers.
+**What it contains:** FHIR-based prior auth requests and responses replacing legacy fax and phone workflows.
+**Compliance deadline - Phase 1:** January 1, 2026 - prior auth process requirements begin. Payers must meet the 72-hour urgent / 7-day standard turnaround times and return structured denial reason codes.  
+**Compliance deadline - Phase 2:** January 1, 2027 - full Prior Authorization API implementation required. Payers must support FHIR-based electronic prior auth submission and response.
 
 ---
 
