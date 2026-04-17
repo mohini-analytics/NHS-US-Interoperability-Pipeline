@@ -1,0 +1,42 @@
+{
+  "resourceType": "ClaimResponse",
+  "use": "preauthorization",
+  "status": "active",
+  "created": "2024-11-15T11:30:00Z",
+  "outcome": "queued",
+  "insurer": {
+    "display": "Aetna"
+  },
+  "type": {
+    "coding": [
+      {
+        "system": "http://terminology.hl7.org/CodeSystem/claim-type",
+        "code": "professional"
+      }
+    ]
+  },
+  "item": [
+    {
+      "itemSequence": 1,
+      "adjudication": [
+        {
+          "category": {
+            "coding": [
+              {
+                "system": "https://codesystem.x12.org/005010/306",
+                "code": "WQ",
+                "display": "Pended - awaiting manual review"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "processNote": [
+    {
+      "type": "display",
+      "text": "Request pended for UM nurse review. International patient - NHS records received. CMS 7-day standard timeline applies from 2024-11-15."
+    }
+  ]
+}
