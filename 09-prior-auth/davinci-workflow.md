@@ -27,19 +27,19 @@ All ClaimResponse resources in this section were validated against the HAPI FHIR
 | Call 10 | POST | 201 Created | Key finding - HAPI accepted ClaimResponse without use field |
 
 ### Call 6 - POST ClaimResponse Approved (A1)
-![POST ClaimResponse Approved](09-prior-auth/call-06-post-approved-a1.png)
+![POST ClaimResponse Approved](call-06-post-approved-a1.png)
 
 ### Call 7 - POST ClaimResponse Denied (A4)
-![POST ClaimResponse Denied](09-prior-auth/call-07-post-denied-a4.png)
+![POST ClaimResponse Denied](call-07-post-denied-a4.png)
 
 ### Call 8 - POST ClaimResponse Pended (WQ)
-![POST ClaimResponse Pended](09-prior-auth/call-08-post-pended-wq.png)
+![POST ClaimResponse Pended](call-08-post-pended-wq.png)
 
 ### Call 9 - GET ClaimResponse Query
-![GET ClaimResponse Query](09-prior-auth/call-09-get-claimresponse-query.png)
+![GET ClaimResponse Query](call-09-get-claimresponse-query.png)
 
 ### Call 10 - POST Invalid Missing Use Field
-![POST Invalid ClaimResponse](09-prior-auth/call-10-post-invalid-missing-use-field.png)
+![POST Invalid ClaimResponse](call-10-post-invalid-missing-use-field.png)
 
 ---
 
