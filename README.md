@@ -1,6 +1,10 @@
 # NHS to US Healthcare Interoperability Pipeline
 FHIR R4 | Da Vinci CRD/DTR/PAS | CMS-0057-F | CDS Hooks | NHS UK Core | US Core | RCM Analytics | SQL | HIPAA | GDPR
 
+**Author:** Mohini Rana - Product Owner, Optum | Former NHS Applications Analyst 
+
+[LinkedIn](https://www.linkedin.com/in/mohini-rana-5615a8112) 
+
 ---
 
 ## Project Overview
@@ -53,7 +57,7 @@ These gaps have direct prior auth and RCM consequences:
 
 ## NHS Clinical Context
 
-The author worked as Applications Analyst at NHS Devon Partnership Trust - a mental health NHS trust - configuring SystmOne clinical templates, questionnaires, and protocols following the full NHS change lifecycle. This project bridges that hands-on NHS clinical systems experience with US healthcare data standards, demonstrating interoperability literacy across both systems from a BA perspective.
+I worked as Applications Analyst at NHS Devon Partnership Trust - a mental health NHS trust - configuring SystmOne clinical templates, questionnaires, and protocols following the full NHS change lifecycle. This project bridges that hands-on NHS clinical systems experience with US healthcare data standards, demonstrating interoperability literacy across both systems from a BA perspective.
 
 ---
 
