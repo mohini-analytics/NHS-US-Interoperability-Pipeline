@@ -15,7 +15,7 @@ When a patient with bipolar disorder moves from the UK to the US, their NHS  cli
 
 ## Business Problem
 
-Over 1.3 million British citizens live in the US. When they transition between healthcare systems, their clinical history - diagnoses, medications, allergies, procedures - exists in incompatible formats. This project maps the technical gap and proposes a FHIR-based interoperability solution, connecting the clinical data problem to its prior authorization failures and Revenue Cycle Management financial consequences.
+Over 800,000 UK-born individuals live in the United States (U.S. Census Bureau), with broader estimates of long-term UK nationals running higher. When they transition between healthcare systems, their clinical history - diagnoses, medications, allergies, procedures - exists in incompatible formats. This project maps the technical gap and proposes a FHIR-based interoperability solution, connecting the clinical data problem to its prior authorization failures and Revenue Cycle Management financial consequences.
 
 US payers face an additional deadline. CMS-0057-F requires FHIR R4 prior authorization APIs to be live by January 2026. Organisations receiving international patients must resolve NHS to US data format gaps before prior auth submission - or face automatic denials and reportable compliance breaches.
 
