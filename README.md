@@ -57,7 +57,9 @@ These gaps have direct prior auth and RCM consequences:
 
 ## NHS Clinical Context
 
-I worked as Applications Analyst at NHS Devon Partnership Trust - a mental health NHS trust - configuring SystmOne clinical templates, questionnaires, and protocols following the full NHS change lifecycle. This project bridges that hands-on NHS clinical systems experience with US healthcare data standards, demonstrating interoperability literacy across both systems from a BA perspective.
+I worked as an Applications Analyst at NHS Devon Partnership Trust - a mental health NHS trust - configuring SystmOne clinical templates, questionnaires, and protocols following the full NHS change lifecycle. This hands-on experience shaping how a clinical system actually functions for end users gave me an early, practical grounding in product-thinking within healthcare: understanding user workflows, translating clinical requirements into system configuration, and managing change end-to-end.
+
+I've since moved into product ownership - currently owning a prior authorization micro-product (PANDA) within OptumRx's Benefit Central platform. This project bridges that early NHS systems experience with my current work building US healthcare products, applying interoperability literacy across both systems from a product ownership perspective.
 
 ---
 
